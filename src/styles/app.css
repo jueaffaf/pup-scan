@@ -1,0 +1,1023 @@
+/* =====================================================================
+   PUP.SCAN — screen styles. Mirrors the Figma section
+   "PUP.SCAN — Desktop Prototype" (1920x1080), made fluid down to ~1280.
+   ===================================================================== */
+
+.ps-app {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-page);
+}
+.ps-muted { color: var(--ink-muted); }
+
+/* --- header ---------------------------------------------------------- */
+.ps-header {
+  height: var(--header-h);
+  flex: none;
+  padding: 0 var(--pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+}
+.ps-brand { display: flex; align-items: baseline; gap: 20px; }
+.ps-nav { display: flex; align-items: center; gap: clamp(20px, 2vw, 36px); }
+.ps-ring {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 1px solid var(--ink-muted);
+}
+.ps-ring--faint { width: 12px; height: 12px; border-color: var(--line); }
+
+/* --- state row ------------------------------------------------------- */
+.ps-state {
+  height: var(--state-h);
+  flex: none;
+  padding: 0 var(--pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ps-state__right { display: flex; align-items: center; gap: 14px; }
+.ps-dots { display: flex; gap: 6px; }
+.ps-dots i {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--ink);
+  animation: blink 1.5s steps(1, end) infinite;
+}
+.ps-dots i:nth-child(2) { animation-delay: 0.4s; }
+.ps-dots i:nth-child(3) { animation-delay: 0.8s; }
+
+/* --- body ------------------------------------------------------------ */
+.ps-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  gap: var(--gap);
+  padding: 0 var(--pad-x) clamp(12px, 1.6vh, 24px);
+}
+.ps-body--result { display: block; }
+
+/* --- camera ---------------------------------------------------------- */
+.ps-camera {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #29282a;
+}
+.ps-camera__video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* selfie view */
+  display: block;
+}
+.ps-camera__scrim {
+  position: absolute; inset: 0;
+  background: rgba(13, 13, 15, 0.1);
+  pointer-events: none;
+}
+
+.ps-mark { position: absolute; width: 26px; height: 26px; pointer-events: none; }
+.ps-mark--tl { top: 22px; left: 22px; border-top: 2px solid var(--frame-mark); border-left: 2px solid var(--frame-mark); }
+.ps-mark--br { bottom: 22px; right: 22px; border-bottom: 2px solid var(--frame-mark); border-right: 2px solid var(--frame-mark); }
+
+.ps-live {
+  position: absolute; top: 30px; left: 66px;
+  display: flex; align-items: center; gap: 10px;
+  color: var(--on-dark);
+}
+.ps-live__dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent);
+  animation: blink 1.8s steps(1, end) infinite;
+}
+
+.ps-flash {
+  position: absolute; inset: 0;
+  background: #fff;
+  animation: flash 260ms ease-out forwards;
+  pointer-events: none;
+}
+
+/* --- dog tracking ---------------------------------------------------- */
+.ps-track { position: absolute; inset: 0; pointer-events: none; }
+.ps-track__frame {
+  position: absolute; top: 0; left: 0;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+/* A loose blob rather than a traced silhouette: the detector only gives a
+   bounding box, and a rough shape that clearly is not tracing the dog reads
+   better than one that almost does. Sits slightly outside the box. */
+.ps-track__outline {
+  position: absolute;
+  inset: -5% -7%;
+  border: 5px dashed var(--on-dark);
+  border-radius: 50% 50% 44% 44% / 46% 46% 54% 54%;
+  opacity: 0.92;
+  filter: drop-shadow(0 1px 5px rgba(0, 0, 0, 0.5));
+}
+.ps-track__c {
+  position: absolute; width: 26px; height: 26px;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
+}
+.ps-track__c--tl { top: -3px; left: -3px; border-top: 3px solid #fff; border-left: 3px solid #fff; }
+.ps-track__c--tr { top: -3px; right: -3px; border-top: 3px solid #fff; border-right: 3px solid #fff; }
+.ps-track__c--bl { bottom: -3px; left: -3px; border-bottom: 3px solid #fff; border-left: 3px solid #fff; }
+.ps-track__c--br { bottom: -3px; right: -3px; border-bottom: 3px solid #fff; border-right: 3px solid #fff; }
+.ps-track__tag {
+  position: absolute; top: -30px; left: 0;
+  display: flex; align-items: baseline; gap: 8px;
+  color: var(--on-dark);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+.ps-track__tag i { font-style: normal; color: var(--on-dark-muted); }
+
+/* --- objects / analysis panel ---------------------------------------- */
+.ps-panel {
+  position: absolute; top: 22px; right: 22px;
+  width: clamp(158px, 12vw, 200px);
+  padding: 22px;
+  border-radius: 3px;
+  background: var(--panel-dark);
+  backdrop-filter: blur(2px);
+  color: var(--on-dark);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.ps-panel__title { opacity: 0.82; }
+.ps-panel__rule { height: 1px; background: rgba(255, 255, 255, 0.2); }
+.ps-panel__row { display: flex; flex-direction: column; gap: 3px; }
+.ps-panel__value { color: var(--on-dark-faint); }
+
+/* --- status overlay -------------------------------------------------- */
+.ps-status {
+  display: flex; align-items: center; gap: 18px;
+  flex: 0 1 auto; min-width: 0;
+  padding: 18px 32px 18px 22px;
+  border-radius: 3px;
+  background: var(--overlay);
+  color: var(--on-dark);
+}
+.ps-status__stack { display: flex; flex-direction: column; gap: 7px; }
+.ps-status__headline { color: var(--on-dark); }
+.ps-status__caption { color: var(--on-dark-muted); }
+.ps-progress { display: flex; gap: 3px; }
+.ps-progress i {
+  width: 7px; height: 10px;
+  background: var(--on-dark-faint);
+  transition: background 180ms ease;
+}
+.ps-progress i.is-on { background: var(--on-dark); }
+
+/* --- countdown ------------------------------------------------------- */
+.ps-countdown {
+  position: absolute; top: 96px; left: 48px;
+  display: flex; flex-direction: column; gap: 12px;
+  color: var(--on-dark);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+}
+.ps-countdown__rule { width: 52px; height: 1px; background: var(--on-dark-muted); }
+.ps-countdown__num {
+  font-family: var(--font-display);
+  font-size: clamp(84px, 8vw, 130px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  animation: feed 220ms ease-out;
+}
+
+/* --- printer --------------------------------------------------------- */
+.ps-printer {
+  position: relative;
+  flex: none;
+  width: var(--printer-w);
+  border-radius: 5px;
+  background: var(--metal);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.ps-printer::after {
+  content: ''; position: absolute; inset: 0;
+  background-image: url('/assets/surface-grain.png');
+  background-size: 260px;
+  mix-blend-mode: overlay;
+  opacity: 0.28;
+  pointer-events: none;
+}
+.ps-printer__slot {
+  position: absolute; top: 6%; left: 5%;
+  width: 90%;
+  z-index: 3;
+  pointer-events: none;
+}
+.ps-printer__paper {
+  position: absolute; top: 15%; left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+/* --- receipt --------------------------------------------------------- */
+.ps-receipt {
+  position: relative;
+  width: clamp(240px, 17vw, 330px);
+  padding: 96px 28px 34px;
+  background: var(--surface-receipt);
+  box-shadow: 0 6px 18px -2px rgba(0, 0, 0, 0.22);
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
+  animation: feed 520ms cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+.ps-receipt--searching { min-height: 400px; }
+.ps-receipt--ready { min-height: 430px; }
+.ps-receipt--countdown { min-height: 470px; }
+
+.ps-receipt__body {
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+  width: 100%;
+  text-align: center;
+}
+.ps-receipt__headline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(26px, 2vw, 36px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+.ps-receipt__rule { width: 96px; height: 1px; background: #c9c3bc; }
+.ps-receipt__rule--wide { display: block; width: 150px; margin: 12px auto; }
+.ps-receipt__meta {
+  margin: 0;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.12em; line-height: 1.8;
+  color: var(--ink-faint);
+}
+.ps-receipt__kicker { color: var(--ink-faint); }
+.ps-receipt__numerals { width: 100%; }
+.ps-receipt__num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 2.4vw, 44px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  opacity: 0.28;
+  transition: opacity 200ms ease;
+}
+.ps-receipt__num.is-now { opacity: 1; }
+.ps-receipt__mark { display: flex; min-height: 4px; color: var(--ink); }
+.ps-receipt__code { color: var(--ink); line-height: 0; }
+.ps-receipt__caption { display: flex; align-items: center; gap: 12px; color: var(--ink); }
+/* --- session receipt ------------------------------------------------- */
+.ps-receipt--session {
+  padding-bottom: 6%;
+  /* hugs its content — a fixed box would clip the ticket */
+  width: clamp(290px, 21vw, 380px);
+  align-self: flex-start;
+  padding: 13% 7% 5%;
+  gap: 1.1vh;
+  /* one knob drives the whole ticket so it always fits the deck */
+  font-size: clamp(8.5px, 1.15vh, 12px);
+}
+/* the compact ticket now also carries CLASSIFICATION, so the rows sit a
+   little tighter to keep the torn edge inside the deck */
+.ps-receipt--session .ps-receipt__body { gap: 0.92vh; }
+.ps-receipt--session .t-row,
+.ps-receipt--session .t-value,
+.ps-receipt--session .t-caption { font-size: 1em; }
+.ps-receipt__kv { display: flex; justify-content: space-between; gap: 10px; width: 100%; }
+.ps-receipt__kv > * { white-space: nowrap; }
+.ps-receipt__k { color: var(--ink-faint); }
+.ps-receipt__dashed {
+  display: block; width: 100%; height: 1px;
+  background: repeating-linear-gradient(90deg, var(--line) 0 3px, transparent 3px 6px);
+}
+.ps-receipt__disclaimer { color: var(--ink-faint); opacity: 0.75; }
+.ps-receipt__certified {
+  margin: 0.4vh 0 0;
+  font-family: var(--font-display);
+  font-size: 2em;
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+}
+
+/* --- result deck ----------------------------------------------------- */
+/* Everything here is sized from the deck's HEIGHT: the viewport is short
+   before it is narrow, so width-driven sizing overflows on laptops. */
+.ps-deck {
+  position: relative;
+  height: 100%;
+  border-radius: 5px;
+  background: var(--metal);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  gap: 5%;
+  padding: clamp(18px, 2.6%, 40px) 4% 0;
+}
+.ps-deck::after {
+  content: ''; position: absolute; inset: 0;
+  background-image: url('/assets/surface-grain.png');
+  background-size: 300px;
+  mix-blend-mode: overlay;
+  opacity: 0.26;
+  pointer-events: none;
+}
+.ps-deck__bay {
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+/* NOTE: percentage padding resolves against the DECK's content width, not the
+   bay's own width. These values are tuned so the paper starts at the slot
+   mouth: bayWidth / slotAspect * 0.62, expressed against the deck. */
+.ps-deck__bay--strip { width: 44%; padding-top: 6.3%; }   /* wide slot, 4.44:1 */
+.ps-deck__bay--receipt { width: 26%; padding-top: 6%; }   /* normal slot, 2.745:1 */
+.ps-deck__slot {
+  position: absolute; top: 0; left: 0;
+  width: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+.ps-deck__out {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  /* `forwards`, not `both`, and staggered by duration rather than delay: a
+     backwards fill would strand the paper at -58% if the animation never gets
+     to run (throttled tab, compositor asleep) */
+  animation: print 900ms cubic-bezier(0.16, 0.9, 0.24, 1) forwards;
+}
+.ps-deck__out--slow { animation-duration: 1250ms; }
+@keyframes print {
+  from { transform: translateY(-58%); }
+  to   { transform: translateY(0); }
+}
+
+/* --- photo strip ----------------------------------------------------- */
+.ps-strip {
+  position: relative;
+  height: 84%;
+  width: auto;
+  aspect-ratio: 602 / 648;
+  padding: 4.3% 4.3% 3.2%;
+  background: var(--surface-receipt);
+  box-shadow: 0 10px 26px -4px rgba(0, 0, 0, 0.24);
+  display: flex; flex-direction: column; gap: 3%;
+}
+.ps-strip__grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 3%;
+}
+.ps-strip__cut { background: #c7c4c2; overflow: hidden; }
+.ps-strip__cut img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ps-strip__caption {
+  flex: none;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+}
+.ps-strip__id { color: var(--ink-faint); }
+
+/* --- actions --------------------------------------------------------- */
+/*
+ * Traced from the Figma control at 91:247. These are bolted machine buttons,
+ * not web buttons: a five-stop face that reads as a stamped metal plate, a
+ * hard 3px corner, and a grommet at each end.
+ */
+.ps-actions {
+  position: absolute; left: 50%; bottom: 3.5%;
+  transform: translateX(-50%);
+  display: flex; gap: 20px; align-items: center;
+  z-index: 4;
+}
+.ps-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  padding: 16px 26px;
+  border-radius: 3px;
+  border: 0.8px solid rgba(143, 136, 128, 0.7);
+  background: linear-gradient(
+    180deg,
+    #f1eeea 0%,
+    #dedad5 6.4%,
+    #dcd7d2 55%,
+    #b7b2ad 89%,
+    #c9c3bd 100%
+  );
+  color: #1b1a1e;
+  box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.18);
+  transition: filter 160ms ease, transform 90ms ease;
+}
+.ps-btn--primary {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background: linear-gradient(
+    180deg,
+    #5b5b5b 0%,
+    #2c2c2c 6.4%,
+    #000000 55%,
+    #2c2c2c 89%,
+    #000000 100%
+  );
+  color: #f5f2ee;
+}
+.ps-btn:hover { filter: brightness(1.09); }
+.ps-btn:active { filter: brightness(0.93); transform: translateY(1px); }
+
+.ps-btn__rivet {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  background: url('/assets/rivet.png') center / contain no-repeat;
+  filter: drop-shadow(0 0 1.6px rgba(0, 0, 0, 0.35));
+}
+
+/* --- footer ---------------------------------------------------------- */
+.ps-footer {
+  height: var(--footer-h);
+  flex: none;
+  padding: 0 var(--pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ps-legal { display: flex; align-items: center; gap: 28px; }
+
+/* --- dev debug readout (only mounted with ?debug) --------------------- */
+.ps-debug {
+  position: absolute; right: 22px; bottom: 110px;
+  min-width: 210px;
+  padding: 12px 14px;
+  border-radius: 3px;
+  background: rgba(10, 10, 12, 0.82);
+  color: #fff;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  line-height: 1.55;
+  display: flex; flex-direction: column;
+}
+.ps-debug__title { opacity: 0.5; letter-spacing: 0.12em; margin-bottom: 4px; }
+.ps-debug__row { display: flex; justify-content: space-between; gap: 16px; opacity: 0.62; }
+.ps-debug__row.is-dog { opacity: 1; color: var(--accent); }
+.ps-debug__row b { font-weight: 500; }
+.ps-debug__row i { font-style: normal; }
+.ps-debug__gate { margin-top: 6px; opacity: 0.45; font-size: 10px; }
+
+/* --- manual trigger --------------------------------------------------- */
+.ps-trigger {
+  flex: none;
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 3px;
+  background: rgba(15, 15, 18, 0.55);
+  color: var(--on-dark);
+  transition: background 160ms ease, border-color 160ms ease;
+}
+.ps-trigger:hover {
+  background: rgba(15, 15, 18, 0.8);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+.ps-trigger kbd {
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 3px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 2px;
+  color: var(--on-dark-muted);
+}
+
+/* status readout and the manual trigger share one bar so they can never
+   collide, however narrow the viewport gets */
+.ps-camera__bottom {
+  position: absolute;
+  left: 22px; right: 22px; bottom: 22px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  pointer-events: none;
+}
+.ps-camera__bottom > * { pointer-events: auto; }
+
+
+/* =====================================================================
+   Paper emergence — three treatments, switch with ?look=now|a|b
+   (?compare adds an on-screen switcher). Measured from the slot asset:
+   the aperture sits at 0.42–0.55 of its height and the paper leaves the
+   bottom lip at ~0.60, which is where the shadow is anchored.
+   ===================================================================== */
+
+/* the session ticket is already carried in by the deck's print animation */
+.ps-receipt--session { animation: none; }
+
+/* --- shared by A and B ------------------------------------------------ */
+/* a receipt printer's slot is the width of its paper, not twice it */
+[data-look='a'] .ps-printer__slot,
+[data-look='b'] .ps-printer__slot { left: 14.5%; width: 71%; }
+
+/* --- paper as a physical object --------------------------------------- */
+/*
+ * Five layers do the work, in order of how much they matter:
+ *   1. the paper bows as it leaves the slot, so its left and right edges fall
+ *      away from the light — a horizontal gradient, the biggest single cue
+ *   2. the lip's contact shadow, dark and tight, gone within ~60px
+ *   3. the paper's own cast shadow onto the machine behind it
+ *   4. a lit edge along the cut sides, so it reads as having thickness
+ *   5. fibre, at a few percent
+ * 1, 2 and 4 sit above the printed content because in reality the shading
+ * falls across the print too.
+ */
+[data-look='a'] .ps-receipt,
+[data-look='b'] .ps-receipt,
+[data-look='a'] .ps-strip,
+[data-look='b'] .ps-strip {
+  background-color: var(--surface-receipt);
+  background-image: url('/assets/paper-grain.png');
+  background-size: 300px;
+  background-blend-mode: multiply;
+  /* only the edge light stays here — the cast shadow lives on the wrapper so
+     it can follow the torn silhouette instead of the element's box */
+  box-shadow:
+    inset 1px 0 0 rgba(255, 255, 255, 0.6),
+    inset -1px 0 0 rgba(255, 255, 255, 0.4);
+}
+
+/*
+ * The tear is cut out of the sheet itself with a two-layer mask, rather than
+ * stacked underneath it as a second surface. Stacking meant two grain phases,
+ * two edge gradients and a 1px width mismatch meeting on one line — visible
+ * however well the colours were matched.
+ */
+[data-look='a'] .ps-receipt,
+[data-look='b'] .ps-receipt {
+  --tear: 54px;   /* torn.png is 900x187, so this reads at ~250px wide */
+  padding-bottom: calc(30px + var(--tear));
+  -webkit-mask-image: linear-gradient(#000, #000), url('/assets/torn.png');
+  mask-image: linear-gradient(#000, #000), url('/assets/torn.png');
+  /* the body layer overlaps the tear layer by 8px: the two must union with no
+     hairline between them, and the tear's top row is not perfectly opaque */
+  -webkit-mask-size: 100% calc(100% - var(--tear) + 8px), 100% var(--tear);
+  mask-size: 100% calc(100% - var(--tear) + 8px), 100% var(--tear);
+  -webkit-mask-position: top left, bottom left;
+  mask-position: top left, bottom left;
+  -webkit-mask-repeat: no-repeat, no-repeat;
+  mask-repeat: no-repeat, no-repeat;
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
+}
+
+/* drop-shadow reads the masked alpha; box-shadow would draw a rectangle
+   under a torn edge */
+[data-look='a'] .ps-printer__paper,
+[data-look='b'] .ps-printer__paper,
+[data-look='a'] .ps-deck__out,
+[data-look='b'] .ps-deck__out {
+  filter:
+    drop-shadow(0 14px 24px rgba(0, 0, 0, 0.3))
+    drop-shadow(3px 6px 12px rgba(0, 0, 0, 0.2));
+}
+
+[data-look='a'] .ps-receipt::before,
+[data-look='b'] .ps-receipt::before,
+[data-look='a'] .ps-strip::before,
+[data-look='b'] .ps-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background-image:
+    /* the paper's top edge is now fully visible, so this is a short, tight
+       contact shadow rather than something that has to survive the bezel */
+    linear-gradient(
+      180deg,
+      rgba(8, 7, 9, 0.62) 0px,
+      rgba(9, 8, 10, 0.4) 7px,
+      rgba(12, 10, 11, 0.22) 20px,
+      rgba(15, 13, 12, 0.11) 38px,
+      rgba(18, 15, 14, 0.04) 64px,
+      rgba(18, 15, 14, 0) 96px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(26, 21, 18, 0.22) 0%,
+      rgba(26, 21, 18, 0.1) 5%,
+      rgba(26, 21, 18, 0.02) 22%,
+      rgba(255, 255, 255, 0.07) 44%,
+      rgba(26, 21, 18, 0.02) 74%,
+      rgba(26, 21, 18, 0.11) 95%,
+      rgba(26, 21, 18, 0.24) 100%
+    );
+}
+
+/* the hard line where the paper passes over the lip */
+[data-look='a'] .ps-receipt::after,
+[data-look='b'] .ps-receipt::after,
+[data-look='a'] .ps-strip::after,
+[data-look='b'] .ps-strip::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2px;
+  z-index: 4;
+  pointer-events: none;
+  background: rgba(4, 3, 5, 0.9);
+}
+
+/* --- B: flat, head-on ------------------------------------------------- */
+[data-look='b'] .ps-printer__slot,
+[data-look='b'] .ps-deck__slot { aspect-ratio: 1200 / 437; height: auto; }
+[data-look='b'] .ps-deck__slot--wide { aspect-ratio: 2000 / 450; }
+/* the bezel has to read as a separate part, not a tint of the body behind it */
+[data-look='b'] .ps-printer__slot,
+[data-look='b'] .ps-deck__slot {
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.26));
+}
+
+/* --- A: keep the render's top-down angle and match the paper to it ---- */
+[data-look='a'] .ps-printer { perspective: 1400px; perspective-origin: 50% 12%; }
+[data-look='a'] .ps-printer__paper {
+  transform: translateX(-50%) rotateX(7deg);
+  transform-origin: top center;
+}
+/* the tilt foreshortens the top of the paper, so the copy needs to start
+   lower or it lands under the emergence shadow */
+/* --- paper starts INSIDE the aperture ---------------------------------- */
+/* the slot art for a/b has the aperture punched out, so the paper is lifted
+   until its top edge is above the opening and the hole is filled with paper */
+
+/* The paper sits IN FRONT of the slot, not behind it — it is coming toward
+   the viewer, so it covers the lower half of the aperture and the lip it
+   passes over. Only the sliver of cavity above its top edge stays black. */
+[data-look='a'] .ps-deck__out,
+[data-look='b'] .ps-deck__out { z-index: 4; }
+
+/* paper top lands at 0.48 of the slot height — the middle of the aperture */
+[data-look='a'] .ps-deck__bay--strip,
+[data-look='b'] .ps-deck__bay--strip { width: 46%; padding-top: 4.97%; }
+[data-look='a'] .ps-deck__bay--receipt,
+[data-look='b'] .ps-deck__bay--receipt { width: 30%; padding-top: 5.24%; }
+
+[data-look='a'] .ps-printer__slot,
+[data-look='b'] .ps-printer__slot { left: 10%; width: 80%; }
+
+/* the paper has to be narrower than the opening, or the hole stops reading
+   as a hole — the dark cavity at each end is what sells it */
+[data-look='a'] .ps-strip,
+[data-look='b'] .ps-strip { height: 78%; padding-top: 8%; }
+[data-look='a'] .ps-receipt--session,
+[data-look='b'] .ps-receipt--session { width: clamp(268px, 19vw, 348px); }
+
+/* the paper now starts above the opening, so the first line of content has to
+   clear both the bezel and the shadow under it */
+/* needs to out-specify the generic .ps-receipt padding below */
+[data-look='a'] .ps-receipt.ps-receipt--session,
+[data-look='b'] .ps-receipt.ps-receipt--session { padding-top: 26%; }
+[data-look='a'] .ps-printer__paper,
+[data-look='b'] .ps-printer__paper {
+  z-index: 4;
+  top: calc(6% + var(--printer-w) * 0.1399); /* 0.80/2.746 * 0.48 */
+}
+
+.ps-cavity { display: none; }
+[data-look='a'] .ps-cavity,
+[data-look='b'] .ps-cavity {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+.ps-cavity i {
+  display: block;
+  position: absolute;
+  left: var(--ap-inset);
+  width: var(--ap-w);
+  top: var(--ap-top);
+  height: var(--ap-h);
+  background: #0a090b;
+}
+[data-look='a'] .ps-cavity--printer,
+[data-look='b'] .ps-cavity--printer {
+  top: 6%;
+  left: 10%;
+  width: 80%;
+  aspect-ratio: var(--slot-aspect);
+}
+[data-look='a'] .ps-deck__bay > .ps-cavity,
+[data-look='b'] .ps-deck__bay > .ps-cavity {
+  top: 0;
+  left: 0;
+  width: 100%;
+  aspect-ratio: var(--slot-aspect);
+}
+/* needs the same specificity as the rule above or it loses the cascade */
+[data-look='a'] .ps-deck__bay > .ps-cavity--wide,
+[data-look='b'] .ps-deck__bay > .ps-cavity--wide { aspect-ratio: var(--slot-aspect-wide); }
+
+[data-look='a'] .ps-receipt { padding-top: 84px; }
+/* both treatments need the ticket to clear the lip and its shadow */
+[data-look='a'] .ps-receipt--session,
+[data-look='b'] .ps-receipt--session { padding-top: 17.5%; }
+
+[data-look='a'] .ps-deck__bay { perspective: 1800px; perspective-origin: 50% 6%; }
+[data-look='a'] .ps-strip,
+[data-look='a'] .ps-receipt--session {
+  transform: rotateX(6deg);
+  transform-origin: top center;
+}
+
+/* --- dev look switcher ------------------------------------------------ */
+.ps-lookswitch {
+  position: fixed; left: 50%; bottom: 10px;
+  transform: translateX(-50%);
+  display: flex; gap: 2px;
+  padding: 3px;
+  border-radius: 3px;
+  background: rgba(15, 15, 18, 0.85);
+  z-index: 50;
+}
+.ps-lookswitch button {
+  padding: 6px 14px;
+  border-radius: 2px;
+  color: rgba(255, 255, 255, 0.55);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+.ps-lookswitch button.is-on { background: #fff; color: #161519; }
+
+
+/* =====================================================================
+   04 -> 05  VIEW PROFILE
+   The ticket on 04 is a physical object with a pull tab bolted to its
+   right edge; clicking it makes that same ticket the hero of 05.
+   ===================================================================== */
+
+/* --- the ticket becomes a control ------------------------------------ */
+.ps-receipt-link {
+  position: relative;
+  display: block;
+  align-self: flex-start;
+  padding: 0;
+  text-align: inherit;
+  cursor: pointer;
+  transition: transform 200ms cubic-bezier(0.22, 0.61, 0.24, 1);
+}
+.ps-deck.is-profile .ps-receipt-link { pointer-events: none; }
+
+/* --- pull tab, traced from Figma 141:245 ------------------------------ */
+/*
+ * Its left edge is pinned to the paper. On hover the strip STRETCHES from
+ * 30 to 40px rather than sliding outward — a tab being drawn out gets
+ * longer, it does not detach and float.
+ */
+.ps-tab {
+  position: absolute;
+  left: 100%;
+  top: 36%;
+  width: 30px;
+  height: 27%;
+  min-height: 128px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 26px 0;
+  border: 0.8px solid rgba(154, 147, 140, 0.55);
+  border-left: 0;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(
+    90deg,
+    #f4f1ed 0%,
+    #e9e5e0 22%,
+    #e0dbd6 62%,
+    #d0cac4 88%,
+    #dcd7d2 100%
+  );
+  box-shadow: 2px 2px 5px -1px rgba(0, 0, 0, 0.14);
+  transition: width 220ms cubic-bezier(0.22, 0.61, 0.24, 1);
+}
+.ps-tab__rivet {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  background: url('/assets/rivet.png') center / contain no-repeat;
+  filter: drop-shadow(0 0 1.6px rgba(0, 0, 0, 0.35));
+}
+.ps-tab__label {
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: #1b1a1e;
+}
+.ps-receipt-link:hover .ps-tab,
+.ps-receipt-link:focus-visible .ps-tab { width: 40px; }
+
+/* --- close control ---------------------------------------------------- */
+.ps-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-left: 14px;
+  color: var(--ink-muted);
+  transition: color 160ms ease;
+}
+.ps-close:hover { color: var(--ink); }
+.ps-close__x { font-size: 17px; line-height: 1; }
+
+/* --- classification --------------------------------------------------- */
+.ps-class {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  text-align: left;
+}
+.ps-class--compact { gap: 0.4vh; }
+.ps-class__v {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.06;
+}
+.ps-class--compact .ps-class__v { font-size: 1.2em; }
+/* the last beat of the reveal, so it has to out-weigh its own label */
+.ps-receipt--profile .ps-class__v { font-size: 1.75em; }
+.ps-class__id {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35em;
+  letter-spacing: 0;
+}
+.ps-class__gap { margin-top: 1.2vh; }
+
+/* --- score bars ------------------------------------------------------- */
+.ps-score { display: flex; flex-direction: column; gap: 0.45vh; width: 100%; }
+.ps-score__track {
+  display: block;
+  width: 100%;
+  height: 5px;
+  background: #d8d5d1;
+  overflow: hidden;
+}
+.ps-score__track i {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--ink);
+  /* held back until the reveal reaches the scores group */
+  transition: width 520ms cubic-bezier(0.22, 0.61, 0.24, 1) 510ms;
+}
+
+/* --- staged reveal ---------------------------------------------------- */
+.ps-receipt--profile .ps-reveal {
+  display: flex;
+  flex-direction: column;
+  gap: 1.05vh;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 340ms ease, transform 340ms cubic-bezier(0.22, 0.61, 0.24, 1);
+}
+.ps-receipt--profile.is-revealed .ps-reveal {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--step) * 150ms);
+}
+.ps-receipt--profile .ps-scores { gap: 0.7vh; }
+.ps-receipt--profile .ps-class { gap: 0.4vh; }
+.ps-receipt--profile .ps-class__gap { margin-top: 0.9vh; }
+.ps-receipt--profile .ps-score { gap: 0.35vh; }
+.ps-receipt--profile .ps-receipt__doc { gap: 0.5vh; }
+
+/*
+ * The enlarged ticket carries five more blocks than the compact one but has
+ * no more room: the deck is ~895px tall and the slot eats the first ~110 of
+ * it. So the profile sets its own, tighter rhythm rather than inheriting the
+ * compact ticket's.
+ */
+.ps-receipt--profile { gap: 0.8vh; }
+.ps-receipt--profile .ps-receipt__body { gap: 0.36vh; }
+.ps-receipt--profile .ps-reveal { gap: 0.62vh; }
+
+/* --- profile ticket --------------------------------------------------- */
+.ps-receipt__doc { display: flex; flex-direction: column; gap: 0.75vh; width: 100%; }
+.ps-receipt__doctitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3em;
+  letter-spacing: 0.02em;
+}
+.ps-receipt__auth { color: var(--ink-faint); text-align: center; }
+.ps-receipt--profile .ps-receipt__code { width: 100%; }
+.ps-receipt--profile .ps-receipt__code svg { display: block; width: 100%; height: auto; }
+.ps-receipt--profile .ps-receipt__certified { font-size: 1.6em; margin-top: 0; }
+
+/* --- 05: the hero ticket ---------------------------------------------- */
+.ps-hero {
+  position: absolute;
+  /* sits higher than the bays: every pixel above the slot is a pixel the
+     hero ticket cannot use, and the deck is only ~895px tall at 1080 */
+  top: clamp(8px, 1.1%, 16px);
+  left: 50%;
+  width: 33.1%;
+  /* 0.331 / 2.746 * 0.48 — paper top lands mid-aperture, as the bays do */
+  padding-top: 5.79%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  z-index: 6;
+}
+.ps-hero__out {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  transform-origin: top left;
+  will-change: transform;
+}
+
+/* --- 05: the four cuts fall back --------------------------------------- */
+.ps-deck__bay--strip {
+  transform-origin: 18% 46%;
+  transition:
+    transform 560ms cubic-bezier(0.22, 0.61, 0.24, 1),
+    opacity 560ms ease,
+    filter 560ms ease;
+}
+.ps-deck.is-profile .ps-deck__bay--strip {
+  transform: translateX(-7%) scale(0.62);
+  opacity: 0.26;
+  filter: blur(3px);
+}
+/* the hero starts life exactly on top of this, so it swaps rather than fades */
+.ps-deck.is-profile .ps-deck__bay--receipt { opacity: 0; pointer-events: none; }
+
+/* the hero ticket stands where the action bar normally sits, so on 05 the
+   single control moves out from under it */
+.ps-deck.is-profile .ps-actions { left: auto; right: 4%; transform: none; }
+
+/* --- look a/b: the tab has to share the paper's tilt and its shadow ---- */
+[data-look='a'] .ps-receipt-link .ps-receipt--session,
+[data-look='b'] .ps-receipt-link .ps-receipt--session { transform: none; }
+[data-look='a'] .ps-receipt-link {
+  transform: rotateX(6deg);
+  transform-origin: top center;
+}
+[data-look='a'] .ps-receipt-link:hover { transform: rotateX(6deg) translateY(-5px); }
+[data-look='b'] .ps-receipt-link:hover,
+[data-look='now'] .ps-receipt-link:hover { transform: translateY(-5px); }
+
+[data-look='a'] .ps-deck__out,
+[data-look='b'] .ps-deck__out { transition: filter 220ms ease; }
+[data-look='a'] .ps-deck__out:has(.ps-receipt-link:hover),
+[data-look='b'] .ps-deck__out:has(.ps-receipt-link:hover) {
+  filter:
+    drop-shadow(0 20px 34px rgba(0, 0, 0, 0.34))
+    drop-shadow(3px 8px 14px rgba(0, 0, 0, 0.18));
+}
+
+[data-look='a'] .ps-hero > .ps-cavity,
+[data-look='b'] .ps-hero > .ps-cavity {
+  top: 0;
+  left: 0;
+  width: 100%;
+  aspect-ratio: var(--slot-aspect);
+}
+[data-look='a'] .ps-hero__out,
+[data-look='b'] .ps-hero__out {
+  filter:
+    drop-shadow(0 14px 24px rgba(0, 0, 0, 0.3))
+    drop-shadow(3px 6px 12px rgba(0, 0, 0, 0.2));
+}
+[data-look='a'] .ps-hero { perspective: 1800px; perspective-origin: 50% 6%; }
+
+/* 1.2x the compact ticket — the slot above it is scaled to match */
+/* 1.35x the compact ticket, and as wide as the aperture above it allows */
+[data-look='a'] .ps-receipt--profile,
+[data-look='b'] .ps-receipt--profile {
+  /* never wider than the aperture above it, which is 0.838 * 0.331 of the
+     deck — otherwise the paper stops reading as coming out of a hole */
+  width: min(470px, 25vw);
+  font-size: clamp(10px, 1.18vh, 12.8px);
+}
+[data-look='a'] .ps-receipt.ps-receipt--profile,
+[data-look='b'] .ps-receipt.ps-receipt--profile {
+  padding-top: 13%;
+  padding-bottom: calc(10px + var(--tear));
+}

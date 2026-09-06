@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PUP.SCAN — paper emergence, A/B/now</title>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0; padding: 20px 20px 28px;
+        background: #d9d6d3;
+        font: 500 11px/1.4 ui-monospace, "SF Mono", Menlo, monospace;
+        letter-spacing: 0.1em;
+        color: #161519;
+      }
+      header { display: flex; align-items: baseline; gap: 18px; margin-bottom: 16px; flex-wrap: wrap; }
+      h1 { font-size: 12px; letter-spacing: 0.14em; font-weight: 500; margin: 0; }
+      .note { opacity: 0.5; letter-spacing: 0.05em; }
+      .modes { display: flex; gap: 2px; margin-left: auto; padding: 3px; background: rgba(22,21,25,0.85); border-radius: 3px; }
+      .modes button {
+        font: inherit; padding: 6px 14px; border: 0; border-radius: 2px;
+        background: none; color: rgba(255,255,255,0.55); cursor: pointer;
+      }
+      .modes button.on { background: #fff; color: #161519; }
+      .row { display: flex; gap: 14px; align-items: flex-start; }
+      .cell { flex: 1; min-width: 0; }
+      .cap b { display: block; font-weight: 500; font-size: 13px; }
+      .cap i { display: block; font-style: normal; opacity: 0.5; letter-spacing: 0.04em; margin: 2px 0 8px; }
+      .frame {
+        position: relative; width: 100%; overflow: hidden;
+        background: #edebe8; box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+      }
+      iframe {
+        position: absolute; top: 0; left: 0;
+        width: 1512px; height: 945px; border: 0;
+        transform-origin: top left;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>PAPER EMERGENCE</h1>
+      <span class="note">same moment, three treatments</span>
+      <div class="modes">
+        <button data-mode="slot" class="on">SLOT</button>
+        <button data-mode="full">FULL</button>
+      </div>
+    </header>
+    <div class="row" id="row"></div>
+
+    <script>
+      // where the printer module sits inside the 1512x945 layout
+      const CROP = { x: 936, y: 118, w: 560, h: 720 }
+      const FULL = { x: 0, y: 0, w: 1512, h: 945 }
+
+      const LOOKS = [
+        ['now', 'flat paper · no shadow · wide slot'],
+        ['a', 'tilt · matches the render angle'],
+        ['b', 'flat · vector slot, head-on'],
+      ]
+
+      const row = document.getElementById('row')
+      for (const [look, desc] of LOOKS) {
+        const cell = document.createElement('div')
+        cell.className = 'cell'
+        cell.innerHTML =
+          '<div class="cap"><b>' + look.toUpperCase() + '</b><i>' + desc + '</i></div>' +
+          '<div class="frame"><iframe src="/?mock&look=' + look + '"></iframe></div>'
+        row.appendChild(cell)
+      }
+
+      let box = CROP
+      function fit() {
+        for (const f of document.querySelectorAll('.frame')) {
+          const s = f.clientWidth / box.w
+          f.style.height = box.h * s + 'px'
+          f.querySelector('iframe').style.transform =
+            'scale(' + s + ') translate(' + -box.x + 'px,' + -box.y + 'px)'
+        }
+      }
+      for (const b of document.querySelectorAll('.modes button')) {
+        b.onclick = () => {
+          document.querySelectorAll('.modes button').forEach((x) => x.classList.remove('on'))
+          b.classList.add('on')
+          box = b.dataset.mode === 'full' ? FULL : CROP
+          fit()
+        }
+      }
+      addEventListener('resize', fit)
+      requestAnimationFrame(fit)
+      setTimeout(fit, 300)
+    </script>
+  </body>
+</html>

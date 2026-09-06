@@ -1,0 +1,55 @@
+:root {
+  /* --- ink ------------------------------------------------------------ */
+  --ink: #161519;
+  --ink-muted: #6e6b69;
+  --ink-faint: #89847e;
+
+  /* --- surfaces ------------------------------------------------------- */
+  --surface-page: #edebe8;
+  --surface-receipt: #faf8f5;
+  --panel-dark: rgba(15, 15, 18, 0.42);
+  --overlay: rgba(15, 15, 18, 0.68);
+
+  /* --- on dark -------------------------------------------------------- */
+  --on-dark: #ffffff;
+  --on-dark-muted: rgba(255, 255, 255, 0.55);
+  --on-dark-faint: rgba(255, 255, 255, 0.4);
+  --frame-mark: rgba(255, 255, 255, 0.72);
+
+  /* --- accent / line -------------------------------------------------- */
+  --accent: #ea9696;
+  --line: #d8d5d1;
+
+  /* --- type ----------------------------------------------------------- */
+  /* Clash Display / BD Megalona resolve from local install when present;
+     Space Grotesk / Instrument Serif are the shipped stand-ins. */
+  --font-display: "Clash Display", "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-editorial: "BD Megalona DEMO Personal Use Only", "Instrument Serif", Georgia, serif;
+  --font-system: "Clash Display", "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+
+  /* --- metric --------------------------------------------------------- */
+  --pad-x: clamp(24px, 2.5vw, 48px);
+  --header-h: clamp(72px, 5vh, 96px);
+  --state-h: clamp(52px, 3.8vh, 68px);
+  --footer-h: clamp(44px, 3.2vh, 60px);
+  --gap: clamp(20px, 2.1vw, 40px);
+  --printer-w: clamp(400px, 31vw, 600px);
+
+  /* aperture geometry, measured off the slot render (fractions of the slot box) */
+  --ap-top: 41.4%;
+  --ap-h: 14.7%;
+  --ap-inset: 8.1%;
+  --ap-w: 83.8%;
+  --slot-aspect: 2.746;      /* narrow slot */
+  --slot-aspect-wide: 4.444; /* photo slot */
+
+  --metal: linear-gradient(
+    180deg,
+    #a9a29c 0%,
+    #d7d2cd 10%,
+    #ede9e4 28%,
+    #c4bdb7 52%,
+    #dad5d0 74%,
+    #a39c96 100%
+  );
+}

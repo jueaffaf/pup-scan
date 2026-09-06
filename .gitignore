@@ -1,0 +1,17 @@
+node_modules
+dist
+*.tsbuildinfo
+.DS_Store
+
+# --- kept out of a PUBLIC repository -------------------------------------
+# Photos of the author holding her dog. dev-feed.jpg backs the ?feed= dev
+# harness; ref-4-states.png is the original design reference. Neither is used
+# by the app, and neither belongs on the public internet.
+public/dev-feed.jpg
+ref-4-states.png
+
+# The internal brief — working notes, and it spells out local filesystem paths.
+PUP_SCAN_Claude_Handoff_updated.md
+
+# Full-resolution source art. The working copies live in public/assets/.
+/*.png
