@@ -1014,10 +1014,10 @@
   /* never wider than the aperture above it, which is 0.838 * 0.331 of the
      deck — otherwise the paper stops reading as coming out of a hole */
   width: min(470px, 25vw);
-  font-size: clamp(10px, 1.18vh, 12.8px);
+  font-size: clamp(9px, 1.04vh, 11.4px);
 }
 [data-look='a'] .ps-receipt.ps-receipt--profile,
 [data-look='b'] .ps-receipt.ps-receipt--profile {
-  padding-top: 13%;
+  padding-top: 9%;
   padding-bottom: calc(10px + var(--tear));
 }
