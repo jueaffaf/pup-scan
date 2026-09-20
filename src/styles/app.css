@@ -1021,3 +1021,51 @@
   padding-top: 13%;
   padding-bottom: calc(10px + var(--tear));
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MOBILE / VERTICAL LAYOUT  (≤768px)
+   Everything above is the untouched desktop layout (the default). These
+   rules only stack the two-column body into a vertical arrangement on
+   phones/narrow screens. No component or logic changes — same detection,
+   same capture, same components; only the CSS arrangement differs.
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* --- camera states: webcam on top, printer + receipt below --- */
+  .ps-body {
+    flex-direction: column;
+    gap: clamp(8px, 1.6vh, 14px);
+  }
+  .ps-camera {
+    flex: 6 1 0;          /* ~top 60% of the body */
+    min-height: 0;
+    width: 100%;
+  }
+  .ps-printer {
+    flex: 4 1 0;          /* ~bottom 40% */
+    width: 100%;
+    min-height: 0;
+  }
+
+  /* --- RESULT: stack the 4-cut strip above the receipt --- */
+  .ps-deck {
+    flex-direction: column;
+    align-items: center;
+    gap: 3%;
+    padding: 6% 4% 0;
+    overflow-y: auto;
+  }
+  .ps-deck__bay--strip   { width: 62%; padding-top: 8.8%; }
+  .ps-deck__bay--receipt { width: 44%; padding-top: 8%; }
+  .ps-actions {
+    position: static;
+    transform: none;
+    margin: 5% auto 7%;
+  }
+}
+
+/* Mobile: declutter chrome so the webcam/printer stack fills the screen */
+@media (max-width: 768px) {
+  .ps-header .t-descriptor { display: none; }
+  .ps-nav { display: none; }
+  .ps-footer { display: none; }
+}
