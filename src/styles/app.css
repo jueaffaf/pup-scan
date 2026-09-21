@@ -275,10 +275,10 @@
   /* hugs its content — a fixed box would clip the ticket */
   width: clamp(290px, 21vw, 380px);
   align-self: flex-start;
-  padding: 9% 7% 5%;
-  gap: 0.85vh;
+  padding: 7% 7% 4%;
+  gap: 0.7vh;
   /* one knob drives the whole ticket so it always fits the deck */
-  font-size: clamp(8px, 1.02vh, 11px);
+  font-size: clamp(7px, 0.9vh, 10px);
 }
 /* the compact ticket now also carries CLASSIFICATION, so the rows sit a
    little tighter to keep the torn edge inside the deck */
