@@ -1,5 +1,17 @@
 @import "./tokens.css";
 
+/* Self-hosted dafont faces (not on Google Fonts) */
+@font-face {
+  font-family: 'mieszkanie9';
+  src: url('/fonts/mieszkanie9.otf') format('opentype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Pretty On The Inside';
+  src: url('/fonts/poti.ttf') format('truetype');
+  font-display: swap;
+}
+
 * { box-sizing: border-box; }
 
 html, body, #root { height: 100%; }
